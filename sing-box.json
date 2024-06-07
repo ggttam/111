@@ -14,7 +14,7 @@
     }
   },
   "log": {
-    "disabled": true,
+    "disabled": fake,
     "level": "info",
     "timestamp": true
   },
