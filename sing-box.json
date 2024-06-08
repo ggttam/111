@@ -8,13 +8,14 @@
     },
     "clash_api": {
       "external_ui": "ui",
-      "external_controller": "0.0.0.0:9090",
-      "external_ui_download_detour": "Proxy",
-      "default_mode": "rule"
+      "external_controller": "127.0.0.1:9090",
+      "external_ui_download_detour": "proxy",
+      "default_mode": "rule",
+      "external_ui_download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip"
     }
   },
   "log": {
-    "disabled": fake,
+    "disabled": false,
     "level": "info",
     "timestamp": true
   },
@@ -85,7 +86,7 @@
         "server": "fakeip-dns"
       }
     ],
-    "strategy": "ipv4_only",
+    "strategy": "prefer_ipv4",
     "fakeip": {
       "enabled": true,
       "inet4_range": "198.18.0.0/15"
@@ -125,10 +126,20 @@
     }
   ],
   "outbounds": [
+     {
+      "tag": "final",
+      "outbounds": [
+        "Proxy",
+      
+        "➜ Direct"
+      ],
+      "interrupt_exist_connections": true,
+      "type": "selector"
+    },
     {
       "tag": "Proxy",
       "outbounds": [
-        "☁️ 20",
+        "☁️ 订阅1",
         "➜ Direct"
       ],
       "interrupt_exist_connections": true,
@@ -138,7 +149,7 @@
       "tag": "Youtube",
       "outbounds": [
         "Proxy",
-        "☁️ 20",
+        "☁️ 订阅1",
         "➜ Direct"
       ],
       "interrupt_exist_connections": true,
@@ -148,7 +159,7 @@
       "tag": "Telegram",
       "outbounds": [
         "Proxy",
-        "☁️ 20",
+        "☁️ 订阅1",
         "➜ Direct"
       ],
       "interrupt_exist_connections": true,
@@ -158,7 +169,7 @@
       "tag": "Openai",
       "outbounds": [
         "Proxy",
-        "☁️ 20",
+        "☁️ 订阅1",
         "➜ Direct"
       ],
       "interrupt_exist_connections": true,
@@ -168,7 +179,7 @@
       "tag": "Github",
       "outbounds": [
         "Proxy",
-        "☁️ 20",
+        "☁️ 订阅1",
         "➜ Direct"
       ],
       "interrupt_exist_connections": true,
@@ -178,25 +189,28 @@
       "tag": "Google",
       "outbounds": [
         "Proxy",
-        "☁️ 20",
+        "☁️ 订阅1",
         "➜ Direct"
       ],
       "interrupt_exist_connections": true,
       "type": "selector"
     },
     {
-      "tag": "☁️ 20",
+      "tag": "☁️ 订阅1",
       "outbounds": [
-        "HK【请勿测速】",
-        "CMCC-IPV6【请勿测速】",
-        "US【请勿测速】",
-        "CMCC-IPV6【请勿测速】 2",
-        "HK【请勿测速】 2",
-        "CMCC-IPV6【请勿测速】 3",
-        "HK【请勿测速】 3",
-        "CMCC-IPV6【请勿测速】 4",
-        "PL【请勿测速】",
-        "CMCC-IPV6【请勿测速】 5"
+        "sdfdas.dsadfs2315.dynv6.net",
+        "sdfdas.dsadfs2315.dynv6.net 2",
+        "sdfdas.dsadfs2315.dynv6.net 3",
+        "sdfdas.dsadfs2315.dynv6.net 4",
+        "sdfdas.dsadfs2315.dynv6.net 5",
+        "sdfdas.dsadfs2315.dynv6.net 6",
+        "sdfdas.dsadfs2315.dynv6.net 7",
+        "sdfdas.dsadfs2315.dynv6.net 8",
+        "sdfdas.dsadfs2315.dynv6.net 9",
+        "sdfdas.dsadfs2315.dynv6.net 10",
+        "sdfdas.dsadfs2315.dynv6.net 11",
+        "sdfdas.dsadfs2315.dynv6.net 12",
+        "sdfdas.dsadfs2315.dynv6.net 13"
       ],
       "interrupt_exist_connections": true,
       "type": "selector"
@@ -218,8 +232,30 @@
       "tag": "block"
     },
     {
-      "tag": "HK【请勿测速】",
-      "server": "8.217.181.213",
+      "tag": "sdfdas.dsadfs2315.dynv6.net",
+      "server": "104.16.255.110",
+      "server_port": 2053,
+      "type": "vless",
+      "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
+      "tls": {
+        "enabled": true,
+        "server_name": "sdfdas.dsadfs2315.dynv6.net",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "random"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed=2048",
+        "headers": {
+          "host": "sdfdas.dsadfs2315.dynv6.net"
+        }
+      }
+    },
+    {
+      "tag": "sdfdas.dsadfs2315.dynv6.net 2",
+      "server": "198.41.209.118",
       "server_port": 2083,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
@@ -233,16 +269,16 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.aliyun.fxxk.dedyn.io",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
       }
     },
     {
-      "tag": "CMCC-IPV6【请勿测速】",
-      "server": "147.78.140.232",
-      "server_port": 443,
+      "tag": "sdfdas.dsadfs2315.dynv6.net 3",
+      "server": "104.19.150.36",
+      "server_port": 2087,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
       "tls": {
@@ -255,59 +291,15 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.oracle.fxxk.dedyn.io",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
       }
     },
     {
-      "tag": "US【请勿测速】",
-      "server": "34.123.83.237",
-      "server_port": 443,
-      "type": "vless",
-      "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
-      "tls": {
-        "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "random"
-        }
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/?proxyip=proxyip.us.fxxk.dedyn.io",
-        "headers": {
-          "host": "sdfdas.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "tag": "CMCC-IPV6【请勿测速】 2",
-      "server": "2606:4700:3036:fa:aef0:52ee:8470:f3e6",
-      "server_port": 443,
-      "type": "vless",
-      "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
-      "tls": {
-        "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "random"
-        }
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/?proxyip=proxyip.oracle.fxxk.dedyn.io",
-        "headers": {
-          "host": "sdfdas.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "tag": "HK【请勿测速】 2",
-      "server": "8.210.39.96",
+      "tag": "sdfdas.dsadfs2315.dynv6.net 4",
+      "server": "104.19.149.22",
       "server_port": 2096,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
@@ -321,15 +313,15 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.aliyun.fxxk.dedyn.io",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
       }
     },
     {
-      "tag": "CMCC-IPV6【请勿测速】 3",
-      "server": "185.176.26.76",
+      "tag": "sdfdas.dsadfs2315.dynv6.net 5",
+      "server": "198.41.221.240",
       "server_port": 443,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
@@ -343,16 +335,16 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.oracle.fxxk.dedyn.io",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
       }
     },
     {
-      "tag": "HK【请勿测速】 3",
-      "server": "8.217.250.222",
-      "server_port": 2096,
+      "tag": "sdfdas.dsadfs2315.dynv6.net 6",
+      "server": "162.159.133.117",
+      "server_port": 8443,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
       "tls": {
@@ -365,21 +357,20 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.aliyun.fxxk.dedyn.io",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
       }
     },
     {
-      "tag": "CMCC-IPV6【请勿测速】 4",
-      "server": "159.246.55.39",
-      "server_port": 443,
+      "tag": "sdfdas.dsadfs2315.dynv6.net 7",
+      "server": "108.162.194.173",
+      "server_port": 80,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
       "tls": {
         "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
         "utls": {
           "enabled": true,
           "fingerprint": "random"
@@ -387,21 +378,20 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.oracle.fxxk.dedyn.io",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
       }
     },
     {
-      "tag": "PL【请勿测速】",
-      "server": "34.116.200.243",
-      "server_port": 443,
+      "tag": "sdfdas.dsadfs2315.dynv6.net 8",
+      "server": "162.159.152.217",
+      "server_port": 8080,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
       "tls": {
         "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
         "utls": {
           "enabled": true,
           "fingerprint": "random"
@@ -409,21 +399,20 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.oracle.fxxk.dedyn.io",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
       }
     },
     {
-      "tag": "CMCC-IPV6【请勿测速】 5",
-      "server": "2606:4700:3036:8cf2:34bf:1733:3dd:f7e7",
-      "server_port": 443,
+      "tag": "sdfdas.dsadfs2315.dynv6.net 9",
+      "server": "190.93.247.76",
+      "server_port": 8880,
       "type": "vless",
       "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
       "tls": {
         "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
         "utls": {
           "enabled": true,
           "fingerprint": "random"
@@ -431,7 +420,91 @@
       },
       "transport": {
         "type": "ws",
-        "path": "/?proxyip=proxyip.oracle.fxxk.dedyn.io",
+        "path": "/?ed=2048",
+        "headers": {
+          "host": "sdfdas.dsadfs2315.dynv6.net"
+        }
+      }
+    },
+    {
+      "tag": "sdfdas.dsadfs2315.dynv6.net 10",
+      "server": "198.41.217.39",
+      "server_port": 2052,
+      "type": "vless",
+      "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
+      "tls": {
+        "enabled": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "random"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed=2048",
+        "headers": {
+          "host": "sdfdas.dsadfs2315.dynv6.net"
+        }
+      }
+    },
+    {
+      "tag": "sdfdas.dsadfs2315.dynv6.net 11",
+      "server": "173.245.49.217",
+      "server_port": 2082,
+      "type": "vless",
+      "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
+      "tls": {
+        "enabled": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "random"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed=2048",
+        "headers": {
+          "host": "sdfdas.dsadfs2315.dynv6.net"
+        }
+      }
+    },
+    {
+      "tag": "sdfdas.dsadfs2315.dynv6.net 12",
+      "server": "198.41.193.36",
+      "server_port": 2086,
+      "type": "vless",
+      "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
+      "tls": {
+        "enabled": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "random"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed=2048",
+        "headers": {
+          "host": "sdfdas.dsadfs2315.dynv6.net"
+        }
+      }
+    },
+    {
+      "tag": "sdfdas.dsadfs2315.dynv6.net 13",
+      "server": "108.162.194.50",
+      "server_port": 2095,
+      "type": "vless",
+      "uuid": "fd5e68e7-c3e6-43f3-bc54-34ef624f0c07",
+      "tls": {
+        "enabled": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "random"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed=2048",
         "headers": {
           "host": "sdfdas.dsadfs2315.dynv6.net"
         }
@@ -445,42 +518,42 @@
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-youtube",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/youtube.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/youtube.srs"
       },
       {
         "type": "remote",
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-telegram",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/telegram.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/telegram.srs"
       },
       {
         "type": "remote",
         "format": "binary",
         "download_detour": "direct",
         "tag": "geoip-telegram",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/telegram.srs"
+        "url": "https://wiki.jokin.uk/geo/geoip/telegram.srs"
       },
       {
         "type": "remote",
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-openai",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/openai.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/openai.srs"
       },
       {
         "type": "remote",
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-github",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/github.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/github.srs"
       },
       {
         "type": "remote",
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-google",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/google.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/google.srs"
       },
       {
         "type": "remote",
@@ -494,21 +567,21 @@
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-cn",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/cn.srs"
       },
       {
         "type": "remote",
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-icloud@cn",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/icloud@cn.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/icloud@cn.srs"
       },
       {
         "type": "remote",
         "format": "binary",
         "download_detour": "direct",
         "tag": "geosite-apple@cn",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/apple@cn.srs"
+        "url": "https://wiki.jokin.uk/geo/geosite/apple@cn.srs"
       }
     ],
     "rules": [
@@ -598,6 +671,6 @@
       }
     ],
     "auto_detect_interface": true,
-    "final": "Proxy"
+    "final": "final"
   }
 }
