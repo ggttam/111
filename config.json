@@ -1,21 +1,5 @@
 {
-  "experimental": {
-    "cache_file": {
-      "enabled": true,
-      "path": "cache.db",
-      "cache_id": "my_profile2",
-      "store_fakeip": true
-    },
-    "clash_api": {
-      "external_ui": "ui",
-      "external_controller": "127.0.0.1:9090",
-      "external_ui_download_detour": "direct",
-      "default_mode": "rule",
-      "external_ui_download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip"
-    }
-  },
   "log": {
-    "disabled": false,
     "level": "info",
     "timestamp": true
   },
@@ -53,8 +37,8 @@
           "geosite-github",
           "geosite-google"
         ],
-        "rewrite_ttl": 1,
-        "server": "fakeip-dns"
+        "server": "fakeip-dns",
+        "rewrite_ttl": 1
       },
       {
         "domain_suffix": [
@@ -79,18 +63,16 @@
         "server": "local-dns"
       },
       {
-        "query_type": [
-          "A"
-        ],
-        "rewrite_ttl": 1,
-        "server": "fakeip-dns"
+        "query_type": "A",
+        "server": "fakeip-dns",
+        "rewrite_ttl": 1
       }
     ],
-    "strategy": "prefer_ipv4",
     "fakeip": {
       "enabled": true,
       "inet4_range": "198.18.0.0/15"
-    }
+    },
+    "strategy": "prefer_ipv4"
   },
   "inbounds": [
     {
@@ -104,38 +86,36 @@
       "type": "redirect",
       "tag": "redirect-in",
       "listen": "::",
-      "sniff_override_destination": false,
       "listen_port": 9887,
       "sniff": true
     },
     {
       "type": "tun",
       "inet4_address": "172.19.0.1/30",
-      "stack": "system",
-      "sniff": true,
-      "sniff_override_destination": false,
       "auto_route": true,
-      "gso": false,
+      "stack": "system",
       "platform": {
         "http_proxy": {
           "enabled": true,
           "server": "127.0.0.1",
           "server_port": 8888
         }
-      }
+      },
+      "sniff": true
     }
   ],
   "outbounds": [
     {
+      "type": "selector",
       "tag": "final",
       "outbounds": [
         "➜ Direct",
         "Proxy"
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
     {
+      "type": "selector",
       "tag": "☁️ 订阅1",
       "outbounds": [
         "sdfdas.dsadfs2315.dynv6.net",
@@ -148,71 +128,68 @@
         "KR",
         "HK",
         "KR 2"
-
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
     {
+      "type": "selector",
       "tag": "Proxy",
       "outbounds": [
         "☁️ 订阅1",
         "➜ Direct"
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
     {
+      "type": "selector",
       "tag": "Youtube",
       "outbounds": [
         "Proxy",
         "☁️ 订阅1",
         "➜ Direct"
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
     {
+      "type": "selector",
       "tag": "Telegram",
       "outbounds": [
         "Proxy",
         "☁️ 订阅1",
         "➜ Direct"
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
     {
+      "type": "selector",
       "tag": "Openai",
       "outbounds": [
         "Proxy",
         "☁️ 订阅1",
         "➜ Direct"
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
     {
+      "type": "selector",
       "tag": "Github",
       "outbounds": [
         "Proxy",
         "☁️ 订阅1",
         "➜ Direct"
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
     {
+      "type": "selector",
       "tag": "Google",
       "outbounds": [
         "Proxy",
         "☁️ 订阅1",
         "➜ Direct"
       ],
-      "interrupt_exist_connections": true,
-      "type": "selector"
+      "interrupt_exist_connections": true
     },
-
     {
       "type": "direct",
       "tag": "➜ Direct"
@@ -230,10 +207,10 @@
       "tag": "block"
     },
     {
+      "type": "vless",
       "tag": "sdfdas.dsadfs2315.dynv6.net",
       "server": "104.16.255.110",
       "server_port": 2053,
-      "type": "vless",
       "uuid": "91be9330-7f31-4678-87d6-da8bd199aefe",
       "tls": {
         "enabled": true,
@@ -252,10 +229,10 @@
       }
     },
     {
+      "type": "vless",
       "tag": "sdfdas.dsadfs2315.dynv6.net 2",
       "server": "198.41.209.118",
       "server_port": 2083,
-      "type": "vless",
       "uuid": "91be9330-7f31-4678-87d6-da8bd199aefe",
       "tls": {
         "enabled": true,
@@ -268,335 +245,4 @@
       "transport": {
         "type": "ws",
         "path": "/?ed=2048",
-        "headers": {
-          "host": "sdfdas.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "tag": "sdfdas.dsadfs2315.dynv6.net 3",
-      "server": "104.19.150.36",
-      "server_port": 2087,
-      "type": "vless",
-      "uuid": "91be9330-7f31-4678-87d6-da8bd199aefe",
-      "tls": {
-        "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "random"
-        }
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/?ed=2048",
-        "headers": {
-          "host": "sdfdas.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "tag": "sdfdas.dsadfs2315.dynv6.net 4",
-      "server": "104.19.149.22",
-      "server_port": 2096,
-      "type": "vless",
-      "uuid": "91be9330-7f31-4678-87d6-da8bd199aefe",
-      "tls": {
-        "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "random"
-        }
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/?ed=2048",
-        "headers": {
-          "host": "sdfdas.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "tag": "sdfdas.dsadfs2315.dynv6.net 5",
-      "server": "198.41.221.240",
-      "server_port": 443,
-      "type": "vless",
-      "uuid": "91be9330-7f31-4678-87d6-da8bd199aefe",
-      "tls": {
-        "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "random"
-        }
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/?ed=2048",
-        "headers": {
-          "host": "sdfdas.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "tag": "sdfdas.dsadfs2315.dynv6.net 6",
-      "server": "162.159.133.117",
-      "server_port": 8443,
-      "type": "vless",
-      "uuid": "91be9330-7f31-4678-87d6-da8bd199aefe",
-      "tls": {
-        "enabled": true,
-        "server_name": "sdfdas.dsadfs2315.dynv6.net",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "random"
-        }
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/?ed=2048",
-        "headers": {
-          "host": "sdfdas.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "type": "trojan",
-      "tag": "SG",
-      "server": "8.222.134.170",
-      "server_port": 2087,
-      "password": "c9861a16-3825-40dd-a6e7-42d73234c6a3",
-      "network": "tcp",
-      "tls": {
-        "enabled": true,
-        "server_name": "dsa.dsadfs2315.dynv6.net"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/proxyIP=proxyip.sg.fxxk.dedyn.io",
-        "headers": {
-          "Host": "dsa.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "type": "trojan",
-      "tag": "KR",
-      "server": "58.125.118.230",
-      "server_port": 12721,
-      "password": "c9861a16-3825-40dd-a6e7-42d73234c6a3",
-      "network": "tcp",
-      "tls": {
-        "enabled": true,
-        "server_name": "dsa.dsadfs2315.dynv6.net"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/proxyIP=proxyip.kr.fxxk.dedyn.io",
-        "headers": {
-          "Host": "dsa.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "type": "trojan",
-      "tag": "HK",
-      "server": "16.162.37.167",
-      "server_port": 443,
-      "password": "c9861a16-3825-40dd-a6e7-42d73234c6a3",
-      "network": "tcp",
-      "tls": {
-        "enabled": true,
-        "server_name": "dsa.dsadfs2315.dynv6.net"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/proxyIP=proxyip.aliyun.fxxk.dedyn.io",
-        "headers": {
-          "Host": "dsa.dsadfs2315.dynv6.net"
-        }
-      }
-    },
-    {
-      "type": "trojan",
-      "tag": "KR 2",
-      "server": "210.179.155.145",
-      "server_port": 35342,
-      "password": "c9861a16-3825-40dd-a6e7-42d73234c6a3",
-      "network": "tcp",
-      "tls": {
-        "enabled": true,
-        "server_name": "dsa.dsadfs2315.dynv6.net"
-      },
-      "transport": {
-        "type": "ws",
-        "path": "/proxyIP=proxyip.kr.fxxk.dedyn.io",
-        "headers": {
-          "Host": "dsa.dsadfs2315.dynv6.net"
-        }
-      }
-    }
-      
-    
-  ],
-  "route": {
-    "rule_set": [
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-youtube",
-        "url": "https://wiki.jokin.uk/geo/geosite/youtube.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-telegram",
-        "url": "https://wiki.jokin.uk/geo/geosite/telegram.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geoip-telegram",
-        "url": "https://wiki.jokin.uk/geo/geoip/telegram.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-openai",
-        "url": "https://wiki.jokin.uk/geo/geosite/openai.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-github",
-        "url": "https://wiki.jokin.uk/geo/geosite/github.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-google",
-        "url": "https://wiki.jokin.uk/geo/geosite/google.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "GeoIP2-CN",
-        "url": "https://wiki.jokin.uk/cnip2.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-cn",
-        "url": "https://wiki.jokin.uk/geo/geosite/cn.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-icloud@cn",
-        "url": "https://wiki.jokin.uk/geo/geosite/icloud@cn.srs"
-      },
-      {
-        "type": "remote",
-        "format": "binary",
-        "download_detour": "direct",
-        "tag": "geosite-apple@cn",
-        "url": "https://wiki.jokin.uk/geo/geosite/apple@cn.srs"
-      }
-    ],
-    "rules": [
-      {
-        "protocol": "dns",
-        "outbound": "dns-out"
-      },
-      {
-        "port": 53,
-        "outbound": "dns-out"
-      },
-      {
-        "type": "logical",
-        "mode": "or",
-        "rules": [
-          {
-            "port": 853
-          },
-          {
-            "network": "udp",
-            "port": 443
-          },
-          {
-            "protocol": "stun"
-          }
-        ],
-        "outbound": "block"
-      },
-      {
-        "domain_suffix": [
-          "edu.cn",
-          "gov.cn",
-          "mil.cn",
-          "ac.cn",
-          "com.cn",
-          "net.cn",
-          "org.cn",
-          "中国",
-          "中國"
-        ],
-        "outbound": "direct"
-      },
-      {
-        "ip_is_private": true,
-        "outbound": "direct"
-      },
-      {
-        "clash_mode": "Direct",
-        "outbound": "direct"
-      },
-
-      {
-        "rule_set": "geosite-youtube",
-        "outbound": "Youtube"
-      },
-      {
-        "rule_set": "geosite-telegram",
-        "outbound": "Telegram"
-      },
-      {
-        "rule_set": "geoip-telegram",
-        "outbound": "Telegram"
-      },
-      {
-        "rule_set": "geosite-openai",
-        "outbound": "Openai"
-      },
-      {
-        "rule_set": "geosite-github",
-        "outbound": "Github"
-      },
-      {
-        "rule_set": "geosite-google",
-        "outbound": "Google"
-      },
-      {
-        "rule_set": [
-          "GeoIP2-CN",
-          "geosite-cn",
-          "geosite-icloud@cn",
-          "geosite-apple@cn"
-        ],
-        "outbound": "direct"
-      }
-    ],
-    "auto_detect_interface": true,
-    "final": "final"
-  }
-}
+ 
