@@ -1,0 +1,218 @@
+{
+  "log": {
+    "level": "info",
+    "output": "sing-box.sagernet.org.log",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "local-dns",
+        "address": "223.5.5.5",
+        "detour": "direct"
+      },
+      {
+        "tag": "google",
+        "address": "tls://8.8.8.8",
+        "detour": "Proxy"
+      },
+      {
+        "tag": "fallback",
+        "address": "8.8.8.8",
+        "address_resolver": "google",
+        "detour": "Proxy"
+      },
+      {
+        "tag": "fakeip-dns",
+        "address": "fakeip"
+      },
+      {
+        "tag": "RCode",
+        "address": "rcode://refused"
+      }
+    ],
+    "rules": [
+      {
+        "outbound": "any",
+        "server": "local-dns"
+      },
+      {
+        "inbound": "tun-in",
+        "server": "fakeip-dns"
+      },
+      {
+        "rule_set": [
+          "youtube",
+          "spotify",
+          "github",
+          "telegram",
+          "google"
+        ],
+        "server": "google"
+      },
+      {
+        "rule_set": "AdGuard",
+        "server": "RCode",
+        "disable_cache": true
+      }
+    ],
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    },
+    "strategy": "prefer_ipv6"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "mtu": 9000,
+      "inet4_address": "172.19.0.1/30",
+      "inet6_address": "fdfe:dcba:9876::1/126",
+      "auto_route": true,
+      "stack": "system"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "vless",
+      "tag": "Proxy",
+      "server": "104.24.137.21",
+      "server_port": 443,
+      "uuid": "e23a173a-c009-44f2-8276-4d9262600ded",
+      "tls": {
+        "enabled": true,
+        "server_name": "ziz.dsadfs2315.dynv6.net",
+        "insecure": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed=2048",
+        "headers": {
+          "Host": "ziz.dsadfs2315.dynv6.net"
+        },
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "outbound": "dns-out"
+      },
+      {
+        "port": 53,
+        "outbound": "dns-out"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          },
+          {
+            "network": "udp",
+            "port": 443
+          },
+          {
+            "protocol": "stun"
+          }
+        ],
+        "outbound": "block"
+      },
+      {
+        "rule_set": [
+          "youtube",
+          "spotify",
+          "github",
+          "telegram",
+          "google"
+        ],
+        "outbound": "Proxy"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "youtube",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/youtube.srs",
+        "download_detour": "Proxy",
+        "update_interval": "168h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "spotify",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/spotify.srs",
+        "download_detour": "Proxy",
+        "update_interval": "168h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "github",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/github.srs",
+        "download_detour": "Proxy",
+        "update_interval": "168h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "telegram",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/telegram.srs",
+        "download_detour": "Proxy",
+        "update_interval": "168h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "google",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/google.srs",
+        "download_detour": "Proxy",
+        "update_interval": "168h0m0s"
+      },
+      {
+        "type": "local",
+        "tag": "AdGuard",
+        "format": "source",
+        "path": "D:/AdGuardSDNSFilter.json"
+      }
+    ],
+    "final": "direct",
+    "auto_detect_interface": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "sing-box.sagernet.org.db",
+      "cache_id": "sing-box.sagernet.org",
+      "store_fakeip": true
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "sing-box.sagernet.org",
+      "external_ui_download_detour": "Proxy"
+    }
+  }
+}
