@@ -13,6 +13,10 @@
         "tag": "代理",
         "address": "https://8.8.8.8/dns-query",
         "detour": "代理"
+      },
+      {
+        "tag": "假冒",
+        "address": "fakeip"
       }
     ],
     "rules": [
@@ -27,7 +31,7 @@
           "wikipedia.org",
           "browserleaks"
         ],
-        "server": "代理"
+        "server": "假冒"
       },
       {
         "rule_set": [
@@ -38,10 +42,14 @@
           "红迪",
           "谷歌"
         ],
-        "server": "代理"
+        "server": "假冒"
       }
     ],
-    "strategy": "prefer_ipv6"
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    }
   },
   "inbounds": [
     {
@@ -51,9 +59,9 @@
       "inet4_address": "172.19.0.1/30",
       "inet6_address": "fdfe:dcba:9876::1/126",
       "auto_route": true,
-      "strict_route": true,
-      "sniff": true,
-      "sniff_override_destination": false
+      "strict_route": true
+      //"sniff": true,
+      //"sniff_override_destination": true
     }
   ],
   "outbounds": [
