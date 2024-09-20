@@ -19,7 +19,8 @@
           "v2ex.com",
           "sagernet.org",
           "metacubex.one",
-          "wikipedia.org"
+          "wikipedia.org",
+          "browserleaks"
         ],
         "server": "假冒"
       },
@@ -47,7 +48,8 @@
       "tag": "走水",
       "inet4_address": "172.19.0.1/30",
       "inet6_address": "fdfe:dcba:9876::1/126",
-      "auto_route": true
+      "auto_route": true,
+      "sniff": true
     }
   ],
   "outbounds": [
@@ -105,7 +107,7 @@
   "route": {
     "rules": [
       {
-        "port": 53,
+        "protocol": "dns",
         "outbound": "探路"
       },
       {
@@ -120,7 +122,8 @@
       {
         "domain_keyword": [
           "metacubex.one",
-          "wikipedia.org"
+          "wikipedia.org",
+          "browserleaks"
         ],
         "outbound": "代理"
       },
