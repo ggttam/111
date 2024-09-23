@@ -1,74 +1,156 @@
 {
   "log": {
-    //"output": "log.log",
     "level": "warn"
-  },
-  "dns": {
-    "servers": [
-      {
-        "tag": "阿里",
-        "address": "h3://223.5.5.5/dns-query",
-        "detour": "直连"
-      },
-      {
-        "tag": "谷歌",
-        "address": "https://8.8.8.8/dns-query",
-        "detour": "代理"
-      },
-      {
-        "tag": "FakeIP",
-        "address": "fakeip"
-      },
-      {
-        "tag": "拒绝",
-        "address": "rcode://refused"
-      }
-    ],
-    "rules": [
-      {
-        "outbound": "any",
-        "server": "阿里"
-      },
-      {
-        "port": 853,
-        "server": "拒绝"
-      },
-      {
-        "network": "udp",
-        "port": 443,
-        "server": "拒绝"
-      },
-      {
-        "protocol": "stun",
-        "server": "拒绝"
-      },
-      {
-        "query_type": "A",
-        "server": "FakeIP"
-      }
-    ],
-    "strategy": "ipv4_only",
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "198.18.0.0/15"
-      //"inet6_range": "fc00::/18"
-    }
   },
   "inbounds": [
     {
       "type": "tun",
       "tag": "入口",
       "inet4_address": "172.19.0.1/30",
-      //"inet6_address": "fdfe:dcba:9876::1/126",
+      "inet6_address": "fdfe:dcba:9876::1/126",
       "auto_route": true,
+      "strict_route": true,
       "sniff": true
     }
   ],
+  "dns": {
+    "servers": [
+      {
+        "tag": "谷歌=>DNS",
+        "address": "https://8.8.8.8/dns-query",
+        "strategy": "ipv4_only",
+        "detour": "代理"
+      },
+      {
+        "tag": "阿里=>DNS",
+        "address": "h3://223.5.5.5/dns-query",
+        "detour": "直连"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": "苹果CN",
+        "server": "阿里=>DNS"
+      },
+      {
+        "rule_set": "微软CN",
+        "server": "阿里=>DNS"
+      },
+      {
+        "rule_set": "cloudflare",
+        "server": "阿里=>DNS"
+      },
+      {
+        "rule_set": "中国域名",
+        "server": "阿里=>DNS"
+      },
+      {
+        "network": "udp",
+        "server": "谷歌=>DNS"
+      },
+      {
+        "network": "tcp",
+        "server": "谷歌=>DNS"
+      }
+    ]
+  },
+  "route": {
+    "rules": [
+      {
+        "port": 53,
+        "outbound": "dns"
+      },
+      {
+        "protocol": "dns",
+        "outbound": "dns"
+      },
+      {
+        "port": 853,
+        "outbound": "拒绝"
+      },
+      {
+        "network": "udp",
+        "port": 443,
+        "outbound": "拒绝"
+      },
+      {
+        "protocol": "stun",
+        "outbound": "拒绝"
+      },
+      {
+        "rule_set": "苹果CN",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "微软CN",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "cloudflare",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "中国域名",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "中国IP",
+        "outbound": "直连"
+      },
+      {
+        "network": "tcp",
+        "outbound": "兜底"
+      },
+      {
+        "network": "udp",
+        "outbound": "兜底"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "苹果CN",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-apple%40cn.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "微软CN",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-microsoft%40cn.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "中国域名",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-cn.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "中国IP",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geoip/raw/rule-set/geoip-cn.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "cloudflare",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-cloudflare.srs",
+        "download_detour": "代理"
+      }
+    ],
+    "auto_detect_interface": true
+  },
   "outbounds": [
     {
       "type": "selector",
       "tag": "兜底",
       "outbounds": [
+        "代理",
         "直连"
       ],
       "interrupt_exist_connections": true
@@ -109,174 +191,6 @@
       "tag": "拒绝"
     }
   ],
-  "route": {
-    "rules": [
-      {
-        "protocol": "dns",
-        "outbound": "dns"
-      },
-      {
-        "port": 53,
-        "outbound": "dns"
-      },
-      {
-        "rule_set": "谷歌",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "油管",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "声甜",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "集合",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "电报",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "红迪",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "电报IP",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "谷歌IP",
-        "outbound": "代理"
-      },
-      {
-        "domain": "wiki.metacubex.one",
-        "outbound": "代理"
-      },
-      {
-        "domain_suffix": "wikipedia.org",
-        "outbound": "代理"
-      },
-      {
-        "network": "tcp",
-        "outbound": "兜底"
-      },
-      {
-        "network": "udp",
-        "outbound": "兜底"
-      }
-    ],
-    "rule_set": [
-      {
-        "type": "remote",
-        "tag": "油管",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-youtube.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "声甜",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-spotify.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "集合",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-github.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "电报",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-telegram.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "电报IP",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geoip/telegram.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "红迪",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-reddit.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "谷歌",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-google.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "谷歌IP",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geoip/google.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "直连",
-        "format": "binary",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-cn.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "代理",
-        "format": "binary",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "直连IP",
-        "format": "binary",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "微软",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/microsoft.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "善人",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geoip/cloudflare.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "善人IP",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cloudflare.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "广告",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/category-ads-all.srs",
-        "download_detour": "代理"
-      }
-    ],
-    "auto_detect_interface": true
-  },
   "experimental": {
     "cache_file": {
       "enabled": true,
