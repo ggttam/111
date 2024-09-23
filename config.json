@@ -5,13 +5,13 @@
   "dns": {
     "servers": [
       {
-        "address": "https://8.8.8.8/dns-query",
+        "address": "https://8.8.4.4/dns-query",
         "strategy": "ipv4_only",
         "detour": "代理"
       },
       {
         "tag": "阿里_DNS",
-        "address": "h3://223.5.5.5/dns-query",
+        "address": "h3://223.6.6.6/dns-query",
         "detour": "直连"
       }
     ],
@@ -20,8 +20,7 @@
         "rule_set": [
           "苹果CN",
           "微软CN",
-          "中国域名",
-          "cloudflare"
+          "中国域名"
         ],
         "server": "阿里_DNS"
       }
@@ -90,24 +89,16 @@
         "outbound": "dns"
       },
       {
-        "ip_is_private": true,
-        "outbound": "直连"
+        "network": "udp",
+        "port": 443,
+        "outbound": "拒绝"
       },
       {
-        "type": "logical",
-        "mode": "or",
-        "rules": [
-          {
-            "port": 853
-          },
-          {
-            "network": "udp",
-            "port": 443
-          },
-          {
-            "protocol": "stun"
-          }
-        ],
+        "port": 853,
+        "outbound": "拒绝"
+      },
+      {
+        "protocol": "stun",
         "outbound": "拒绝"
       },
       {
@@ -119,15 +110,15 @@
         "outbound": "直连"
       },
       {
-        "rule_set": "cloudflare",
-        "outbound": "直连"
-      },
-      {
         "rule_set": "中国域名",
         "outbound": "直连"
       },
       {
         "rule_set": "中国IP",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "CF_IP",
         "outbound": "直连"
       }
     ],
@@ -158,9 +149,9 @@
       },
       {
         "type": "remote",
-        "tag": "cloudflare",
+        "tag": "CF_IP",
         "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-cloudflare.srs"
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cloudflare.srs"
       }
     ],
     "auto_detect_interface": true
