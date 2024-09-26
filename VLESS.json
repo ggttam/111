@@ -15,7 +15,10 @@
     ],
     "rules": [
       {
-        "protocol": "dns",
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
         "server": "FakeIP"
       }
     ],
@@ -84,10 +87,7 @@
   "route": {
     "rules": [
       {
-       "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "protocol": "dns",
         "outbound": "dns"
       },
       {
