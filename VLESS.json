@@ -84,7 +84,10 @@
   "route": {
     "rules": [
       {
-        "protocol": "dns",
+        "query_type":[
+           "A",
+          "AAAA"
+        ],
         "outbound": "dns"
       },
       {
