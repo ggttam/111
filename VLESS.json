@@ -1,0 +1,199 @@
+{
+  "log": {
+    "level": "debug",
+    "output": "/private/var/mobile/Library/Downloads/log.log"
+  },
+  "dns": {
+    "servers": [
+      {
+        "address": "tls://8.8.8.8",
+        "detour": "代理",
+        "client_subnet": "114.114.114.114/24"
+      },
+      {
+        "tag": "FakeIP",
+        "address": "fakeip"
+      }
+    ],
+    "rules": [
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "FakeIP"
+      }
+    ],
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    }
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "inet4_address": "172.19.0.1/30",
+      "inet6_address": "fdfe:dcba:9876::1/126",
+      "auto_route": true,
+      "strict_route": true,
+      "sniff": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "兜底",
+      "outbounds": [
+        "直连",
+        "代理"
+      ],
+      "interrupt_exist_connections": true
+    },
+    {
+      "type": "vless",
+      "tag": "代理",
+      "server": "104.18.3.46",
+      "server_port": 443,
+      "uuid": "e23a173a-c009-44f2-8276-4d9262600ded",
+      "tls": {
+        "enabled": true,
+        "server_name": "ziz.dsadfs2315.dynv6.net",
+        "insecure": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/?ed=2048",
+        "headers": {
+          "Host": "ziz.dsadfs2315.dynv6.net"
+        }
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "直连"
+    },
+    {
+      "type": "dns",
+      "tag": "dns"
+    },
+    {
+      "type": "block",
+      "tag": "拒绝"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "outbound": "dns"
+      },
+      {
+        "port": 853,
+        "outbound": "拒绝"
+      },
+      {
+        "network": "udp",
+        "port": 443,
+        "outbound": "拒绝"
+      },
+      {
+        "protocol": "stun",
+        "outbound": "拒绝"
+      },
+      {
+        "rule_set": "集合",
+        "outbound": "代理"
+      },
+      {
+        "rule_set": "声甜",
+        "outbound": "代理"
+      },
+      {
+        "rule_set": "谷歌",
+        "outbound": "代理"
+      },
+      {
+        "rule_set": "油管",
+        "outbound": "代理"
+      },
+      {
+        "rule_set": "电报",
+        "outbound": "代理"
+      },
+      {
+        "rule_set": "电报IP",
+        "outbound": "代理"
+      },
+      {
+        "network": "tcp",
+        "outbound": "兜底"
+      },
+      {
+        "network": "udp",
+        "outbound": "兜底"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "集合",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-github.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "声甜",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-spotify.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "谷歌",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-google.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "油管",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-youtube.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "电报",
+        "format": "binary",
+        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-telegram.srs",
+        "download_detour": "代理"
+      },
+      {
+        "type": "remote",
+        "tag": "电报IP",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geoip/telegram.srs",
+        "download_detour": "代理"
+      }
+    ],
+    "auto_detect_interface": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true,
+      "store_rdrc": true
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "后台",
+      "external_ui_download_detour": "代理"
+    }
+  }
+}
