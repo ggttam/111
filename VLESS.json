@@ -1,6 +1,7 @@
 {
   "log": {
-    "level": "warn"
+    "level": "debug",
+    "output": "/private/var/mobile/Library/Downloads/log.log"
   },
   "dns": {
     "servers": [
