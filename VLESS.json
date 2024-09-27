@@ -1,14 +1,19 @@
 {
   "log": {
-    "level": "debug",
-    "output": "/private/var/mobile/Library/Downloads/log.log"
+    "level": "warn"
+    //"output": "C:\\Users\\a3425\\Desktop\\log.log"
   },
   "dns": {
     "servers": [
       {
+        "tag": "谷歌_DNS",
         "address": "tls://8.8.8.8",
-        "detour": "代理",
-        "client_subnet": "114.114.114.114/24"
+        "detour": "代理"
+      },
+      {
+        "tag": "联通_DNS",
+        "address": "221.7.136.69",
+        "detour": "直连"
       },
       {
         "tag": "FakeIP",
@@ -16,6 +21,29 @@
       }
     ],
     "rules": [
+      {
+        "rule_set": "中国域名",
+        "server": "联通_DNS"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "外国域名",
+            "invert": true
+          },
+          {
+            "rule_set": "中国IP"
+          }
+        ],
+        "server": "谷歌_DNS",
+        "client_subnet": "114.114.114.114/24"
+      },
+      {
+        "rule_set": "_CF_IP_",
+        "server": "谷歌_DNS"
+      },
       {
         "query_type": [
           "A",
@@ -45,8 +73,8 @@
       "type": "selector",
       "tag": "兜底",
       "outbounds": [
-        "直连",
-        "代理"
+        "代理",
+        "直连"
       ],
       "interrupt_exist_connections": true
     },
@@ -106,79 +134,49 @@
         "outbound": "拒绝"
       },
       {
-        "rule_set": "集合",
-        "outbound": "代理"
+        "rule_set": "中国域名",
+        "outbound": "直连"
       },
       {
-        "rule_set": "声甜",
-        "outbound": "代理"
+        "rule_set": "中国IP",
+        "outbound": "直连"
       },
       {
-        "rule_set": "谷歌",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "油管",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "电报",
-        "outbound": "代理"
-      },
-      {
-        "rule_set": "电报IP",
-        "outbound": "代理"
+        "rule_set": "_CF_IP_",
+        "outbound": "直连"
       },
       {
         "network": "tcp",
-        "outbound": "兜底"
-      },
-      {
-        "network": "udp",
         "outbound": "兜底"
       }
     ],
     "rule_set": [
       {
         "type": "remote",
-        "tag": "集合",
+        "tag": "中国域名",
         "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-github.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs",
         "download_detour": "代理"
       },
       {
         "type": "remote",
-        "tag": "声甜",
+        "tag": "外国域名",
         "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-spotify.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/geolocation-!cn.srs",
         "download_detour": "代理"
       },
       {
         "type": "remote",
-        "tag": "谷歌",
+        "tag": "中国IP",
         "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-google.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs",
         "download_detour": "代理"
       },
       {
         "type": "remote",
-        "tag": "油管",
+        "tag": "_CF_IP_",
         "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-youtube.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "电报",
-        "format": "binary",
-        "url": "https://github.com/SagerNet/sing-geosite/raw/rule-set/geosite-telegram.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "电报IP",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geoip/telegram.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cloudflare.srs",
         "download_detour": "代理"
       }
     ],
@@ -186,9 +184,7 @@
   },
   "experimental": {
     "cache_file": {
-      "enabled": true,
-      "store_fakeip": true,
-      "store_rdrc": true
+      "enabled": true
     },
     "clash_api": {
       "external_controller": "127.0.0.1:9090",
