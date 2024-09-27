@@ -1,13 +1,12 @@
 {
   "log": {
     "level": "warn"
-    //"output": "C:\\Users\\a3425\\Desktop\\log.log"
   },
   "dns": {
     "servers": [
       {
         "tag": "谷歌_DNS",
-        "address": "tls://8.8.8.8",
+        "address": "https://8.8.8.8/dns-query",
         "detour": "代理"
       },
       {
@@ -22,27 +21,26 @@
     ],
     "rules": [
       {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "domain_keyword": [
+          "ip.sb",
+          "missav.",
+          "surrit.com",
+          "fivetiu.com",
+          "cloudflare"
+        ],
+        "server": "谷歌_DNS"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
         "rule_set": "中国域名",
         "server": "联通_DNS"
-      },
-      {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          {
-            "rule_set": "外国域名",
-            "invert": true
-          },
-          {
-            "rule_set": "中国IP"
-          }
-        ],
-        "server": "谷歌_DNS",
-        "client_subnet": "114.114.114.114/24"
-      },
-      {
-        "rule_set": "_CF_IP_",
-        "server": "谷歌_DNS"
       },
       {
         "query_type": [
@@ -75,8 +73,7 @@
       "outbounds": [
         "代理",
         "直连"
-      ],
-      "interrupt_exist_connections": true
+      ]
     },
     {
       "type": "vless",
@@ -138,16 +135,12 @@
         "outbound": "直连"
       },
       {
-        "rule_set": "中国IP",
+        "ip_version": 4,
         "outbound": "直连"
       },
       {
-        "rule_set": "_CF_IP_",
+        "ip_version": 6,
         "outbound": "直连"
-      },
-      {
-        "network": "tcp",
-        "outbound": "兜底"
       }
     ],
     "rule_set": [
@@ -155,29 +148,7 @@
         "type": "remote",
         "tag": "中国域名",
         "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "外国域名",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/geolocation-!cn.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "中国IP",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs",
-        "download_detour": "代理"
-      },
-      {
-        "type": "remote",
-        "tag": "_CF_IP_",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cloudflare.srs",
-        "download_detour": "代理"
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs"
       }
     ],
     "auto_detect_interface": true
@@ -188,8 +159,7 @@
     },
     "clash_api": {
       "external_controller": "127.0.0.1:9090",
-      "external_ui": "后台",
-      "external_ui_download_detour": "代理"
+      "external_ui": "后台"
     }
   }
 }
