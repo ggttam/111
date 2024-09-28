@@ -10,38 +10,38 @@
         "detour": "代理"
       },
       {
-        "tag": "联通_DNS",
-        "address": "local",
+        "tag": "阿里_DNS",
+        "address": "https://223.5.5.5/dns-query",
         "detour": "直连"
       },
       {
         "tag": "FakeIP",
         "address": "fakeip"
-      },
-      {
-        "tag": "拒绝",
-        "address": "rcode://success"
       }
     ],
     "rules": [
       {
-        "query_type": [
-          "A",
-          "AAAA"
+        "domain_suffix": [
+          "ip.sb",
+          "missav.com"
         ],
-        "invert": true,
-        "server": "拒绝",
-        "disable_cache": true
+        "server": "谷歌_DNS"
       },
       {
         "rule_set": [
+          "cloudflare",
+          "苹果",
           "中国",
-          "苹果"
+          "微软"
         ],
-        "server": "联通_DNS"
+        "server": "阿里_DNS"
       },
       {
-        "rule_set": "cloudflare",
+        "rule_set": "外国",
+        "server": "FakeIP"
+      },
+      {
+        "rule_set": "CF_IP",
         "server": "谷歌_DNS"
       },
       {
@@ -66,6 +66,8 @@
       "inet6_address": "fdfe:dcba:9876::1/126",
       "auto_route": true,
       "strict_route": true,
+      "udp_timeout": "5m0s",
+      "stack": "mixed",
       "sniff": true
     }
   ],
@@ -81,6 +83,9 @@
     {
       "type": "vless",
       "tag": "代理",
+      "tcp_fast_open": true,
+      "tcp_multi_path": true,
+      "udp_fragment": true,
       "server": "104.18.3.46",
       "server_port": 443,
       "uuid": "e23a173a-c009-44f2-8276-4d9262600ded",
@@ -152,15 +157,66 @@
       },
       {
         "rule_set": [
-          "中国",
-          "苹果",
           "cloudflare",
+          "CF_IP"
+        ],
+        "outbound": "直连"
+      },
+      {
+        "domain_suffix": "ip.sb",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "苹果",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "微软",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": [
+          "中国",
           "IP"
         ],
         "outbound": "直连"
+      },
+      {
+        "rule_set": "外国",
+        "outbound": "代理"
       }
     ],
     "rule_set": [
+      {
+        "type": "remote",
+        "tag": "外国",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/geolocation-!cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "cloudflare",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cloudflare.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "CF_IP",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geoip/cloudflare.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "苹果",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/apple.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "微软",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/microsoft.srs"
+      },
       {
         "type": "remote",
         "tag": "中国",
@@ -172,18 +228,6 @@
         "tag": "IP",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "苹果",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/apple.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "cloudflare",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cloudflare.srs"
       }
     ],
     "auto_detect_interface": true
