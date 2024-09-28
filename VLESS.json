@@ -1,7 +1,6 @@
 {
   "log": {
     "level": "warn"
-    //"output": "C:\\Users\\a3425\\Desktop\\log.log"
   },
   "dns": {
     "servers": [
@@ -12,7 +11,7 @@
       },
       {
         "tag": "联通_DNS",
-        "address": "221.7.136.69",
+        "address": "local",
         "detour": "直连"
       },
       {
