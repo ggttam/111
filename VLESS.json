@@ -1,6 +1,7 @@
 {
   "log": {
     "level": "warn"
+    //"output": "C:\\Users\\a3425\\Desktop\\log.log"
   },
   "dns": {
     "servers": [
@@ -22,10 +23,27 @@
     "rules": [
       {
         "domain_suffix": [
-          "ip.sb",
-          "missav.com"
+          "missav.com",
+          "sagernet.org"
         ],
         "server": "谷歌_DNS"
+      },
+      {
+        "domain_suffix": [
+          "ip.sb"
+        ],
+        "server": "阿里_DNS"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "domain_suffix": [
+          "browserleaks.com",
+          "browserleaks.net"
+        ],
+        "server": "FakeIP"
       },
       {
         "rule_set": [
@@ -37,12 +55,22 @@
         "server": "阿里_DNS"
       },
       {
-        "rule_set": "外国",
-        "server": "FakeIP"
-      },
-      {
-        "rule_set": "CF_IP",
-        "server": "谷歌_DNS"
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "外国",
+            "invert": true
+          },
+          {
+            "rule_set": [
+              "CF_IP",
+              "国IP"
+            ]
+          }
+        ],
+        "server": "谷歌_DNS",
+        "client_subnet": "114.114.114.114/24"
       },
       {
         "query_type": [
@@ -156,15 +184,16 @@
         "outbound": "拒绝"
       },
       {
-        "rule_set": [
-          "cloudflare",
-          "CF_IP"
+        "domain_suffix": [
+          "nssurge.com"
         ],
         "outbound": "直连"
       },
       {
-        "domain_suffix": "ip.sb",
-        "outbound": "直连"
+        "domain_suffix": [
+          "browserleaks.com"
+        ],
+        "outbound": "代理"
       },
       {
         "rule_set": "苹果",
@@ -175,9 +204,17 @@
         "outbound": "直连"
       },
       {
+        "rule_set": "中国",
+        "outbound": "直连"
+      },
+      {
+        "rule_set": "国IP",
+        "outbound": "直连"
+      },
+      {
         "rule_set": [
-          "中国",
-          "IP"
+          "cloudflare",
+          "CF_IP"
         ],
         "outbound": "直连"
       },
@@ -225,7 +262,7 @@
       },
       {
         "type": "remote",
-        "tag": "IP",
+        "tag": "国IP",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs"
       }
