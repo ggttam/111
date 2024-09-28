@@ -1,6 +1,7 @@
 {
   "log": {
     "level": "warn"
+    //"output": "C:\\Users\\a3425\\Desktop\\log.log"
   },
   "dns": {
     "servers": [
@@ -17,6 +18,10 @@
       {
         "tag": "FakeIP",
         "address": "fakeip"
+      },
+      {
+        "tag": "拒绝",
+        "address": "rcode://success"
       }
     ],
     "rules": [
@@ -25,22 +30,17 @@
           "A",
           "AAAA"
         ],
-        "domain_keyword": [
-          "ip.sb",
-          "missav.",
-          "surrit.com",
-          "fivetiu.com",
-          "cloudflare"
-        ],
-        "server": "谷歌_DNS"
+        "invert": true,
+        "server": "拒绝",
+        "disable_cache": true
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "rule_set": "中国域名",
+        "rule_set": "中国",
         "server": "联通_DNS"
+      },
+      {
+        "rule_set": "cloudflare",
+        "server": "谷歌_DNS"
       },
       {
         "query_type": [
@@ -59,6 +59,7 @@
   "inbounds": [
     {
       "type": "tun",
+      "tag": "入站",
       "inet4_address": "172.19.0.1/30",
       "inet6_address": "fdfe:dcba:9876::1/126",
       "auto_route": true,
@@ -114,48 +115,75 @@
   "route": {
     "rules": [
       {
-        "protocol": "dns",
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "protocol": "dns"
+          },
+          {
+            "port": 53
+          }
+        ],
         "outbound": "dns"
       },
       {
-        "port": 853,
-        "outbound": "拒绝"
-      },
-      {
-        "network": "udp",
-        "port": 443,
-        "outbound": "拒绝"
-      },
-      {
-        "protocol": "stun",
-        "outbound": "拒绝"
-      },
-      {
-        "rule_set": "中国域名",
+        "ip_is_private": true,
         "outbound": "直连"
       },
       {
-        "ip_version": 4,
-        "outbound": "直连"
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          },
+          {
+            "network": "udp",
+            "port": 443
+          },
+          {
+            "protocol": "stun"
+          }
+        ],
+        "outbound": "拒绝"
       },
       {
-        "ip_version": 6,
+        "rule_set": [
+          "中国",
+          "cloudflare",
+          "IP"
+        ],
         "outbound": "直连"
       }
     ],
     "rule_set": [
       {
         "type": "remote",
-        "tag": "中国域名",
+        "tag": "中国",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "IP",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "cloudflare",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cloudflare.srs"
       }
     ],
     "auto_detect_interface": true
   },
   "experimental": {
     "cache_file": {
-      "enabled": true
+      "enabled": true,
+      "store_fakeip": true,
+      "store_rdrc": true
     },
     "clash_api": {
       "external_controller": "127.0.0.1:9090",
