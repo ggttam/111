@@ -34,7 +34,10 @@
         "disable_cache": true
       },
       {
-        "rule_set": "中国",
+        "rule_set": [
+          "中国",
+          "苹果"
+        ],
         "server": "联通_DNS"
       },
       {
@@ -150,6 +153,7 @@
       {
         "rule_set": [
           "中国",
+          "苹果",
           "cloudflare",
           "IP"
         ],
@@ -168,6 +172,12 @@
         "tag": "IP",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "苹果",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/apple.srs"
       },
       {
         "type": "remote",
