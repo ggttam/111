@@ -6,7 +6,5 @@ var body = $response.body;
 var obj = JSON.parse(body);
 var title = obj['regionName'] + obj['city']; 
 var subtitle = obj['query'];
-var description = "国家" + ":" + obj['country'] + '\n' 
-+ "数据中心" + ":" + obj['org'];
 
-$done({title, subtitle, description});
+$done({title, subtitle});
