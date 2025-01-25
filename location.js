@@ -6,7 +6,10 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
 var body = $response.body;
 var obj = JSON.parse(body);
 var title =flags.get(obj['countryCode']) + ' ' + obj['regionName'] + '_' + obj['city']; 
-var subtitle = obj['query'];
+var subtitle = obj['isp'];
 var ip = obj['query'];
+var description = "地理位置" + ":" + obj['country'] + '\n' 
++ "远端地址" + ":" + obj['query'] + '\n' 
++ "数据中心" + ":" + obj['org'];
 
-$done({title, subtitle, ip});
+$done({title, subtitle, ip, description});
