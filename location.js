@@ -8,8 +8,8 @@ var obj = JSON.parse(body);
 var title =flags.get(obj['countryCode']) + ' ' + obj['regionName'] + ' ' + obj['city']; 
 var subtitle = obj['isp'];
 var ip = obj['query'];
-var description = "位置" + ":" + obj['country'] + ' ' + obj['regionName'] + ' ' + obj['city'] + '\n' 
-+ "IP" + ":" + obj['query'] + '\n' 
-+ "ORG" + ":" + obj['org'];
+var description = obj['country'] + ' ' + obj['regionName'] + ' ' + obj['city'] + '\n' 
++ obj['query'] + '\n' 
++ obj['isp'];
 
 $done({title, subtitle, ip, description});
